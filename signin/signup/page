@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBUTABERAhub</title>
+    <link rel="stylesheet" href="signin.css">
+    <section class="spage">
+        <section class="first">
+    <h1 >⚖  UBUTABERAhub</h1>
+    <h2>Access Justice from Anywhere</h2>
+    <p>connect with Rwanda's legal system securely.File cases,find,and track and proceedings -all in 
+        one platform.
+    </p><div class="stats">
+  <div class="stat">
+    <div class="stat-number">50K+</div>
+    <div class="stat-label">Users</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="stat">
+    <div class="stat-number">10K+</div>
+    <div class="stat-label">Cases</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="stat">
+    <div class="stat-number">500+</div>
+    <div class="stat-label">Lawyers</div>
+  </div>
+</div>
+    </section>
+    <section class="second">
+        
+<div class="container">
+  <a class="back">← Back to Home</a>
+
+  <h1>Welcome Back</h1>
+  <p class="subtitle">Sign in to access your dashboard</p>
+
+  <h3>Select Your Role</h3>
+
+  <div class="roles">
+    <div class="role active">
+      <div class="icon blue">👤</div>
+      <h4>Citizen</h4>
+      <p>Access legal services and track your cases</p>
+    </div>
+
+    <div class="role">
+      <div class="icon green">💼</div>
+      <h4>Lawyer</h4>
+      <p>Manage clients and case documents</p>
+    </div>
+
+    <div class="role">
+      <div class="icon yellow">⚖</div>
+      <h4>Judge</h4>
+      <p>Review cases and issue rulings</p>
+    </div>
+
+    <div class="role">
+      <div class="icon blue">📄</div>
+      <h4>Court Clerk</h4>
+      <p>Process filings and manage records</p>
+    </div>
+  </div>
+<div class="tabs">
+    <button class="tab active" id="tab-signin">Sign In</button>
+    <button class="tab" id="tab-signup">Sign Up</button>
+</div>
+
+<form id="signInForm">
+
+    <label>Email Address</label>
+    <input type="email" placeholder="you@example.com" required />
+
+    <label>Password</label>
+    <input type="password" placeholder="••••••••" required />
+
+    <div id="login-citizen" class="login-staff">
+        <label>National ID Number</label>
+        <input type="text" placeholder="1 19XX 8 XXXX..." />
+    </div>
+    <div id="login-lawyer" class="login-staff" style="display:none;">
+        <label>Bar ID / License Number</label>
+        <input type="text" placeholder="RBA/2026/XXXX" />
+    </div>
+    <div id="login-judge" class="login-staff" style="display:none;">
+        <label>Judicial Commission ID</label>
+        <input type="text" placeholder="JUD-RW-550" />
+    </div>
+    <div id="login-clerk" class="login-staff" style="display:none;">
+        <label>Court Staff ID Number</label>
+        <input type="text" placeholder="CLK-RW-112" />
+    </div>
+
+    <button type="submit" class="main-btn">Sign In as Citizen</button>
+</form>
+
+<form id="signUpForm" style="display: none;">
+    
+    <div class="form-grid">
+        <div class="field-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="John Doe" required />
+        </div>
+        <div class="field-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com" required />
+        </div>
+    </div>
+
+    <div id="signup-citizen" class="signup-staff">
+        <label>National ID (NID)</label>
+        <input type="text" placeholder="1 19XX 8 XXXX..." required />
+        <label>Phone Number (MTN/Airtel)</label>
+        <input type="tel" placeholder="078XXXXXXX" required />
+    </div>
+
+    <div id="signup-lawyer" class="signup-staff" style="display:none;">
+        <label>Bar Association ID</label>
+        <input type="text" placeholder="RBA/2026/XXXX" required />
+        <label>Law Firm Name</label>
+        <input type="text" placeholder="Kigali Law Chambers" />
+      <label class="file-label">Upload Practice License (PDF)</label>
+
+<label class="file-upload">
+  <span>Choose PDF file</span>
+  <input type="file" accept=".pdf">
+</label>
+
+    </div>
+
+    <div id="signup-judge" class="signup-staff" style="display:none;">
+        <label>Judicial Commission Number</label>
+        <input type="text" placeholder="JUD-XXXX" required />
+        <label>Assigned Court/Chamber</label>
+        <select>
+            <option>Supreme Court</option>
+            <option>High Court</option>
+            <option>Intermediate Court</option>
+        </select>
+    </div>
+
+    <div id="signup-clerk" class="signup-staff" style="display:none;">
+        <label>Court Staff ID</label>
+        <input type="text" placeholder="CLK-XXXX" required />
+        <label>Station Location</label>
+        <input type="text" placeholder="Nyarugenge Court" />
+    </div>
+    
+
+    <label>Create Password</label>
+    <input type="password" placeholder="Min. 8 characters" required />
+    
+    <button type="submit" class="main-btn">Create Account</button>
+</form>
+</div>
+
+
+
+    </section>
+    </section>
+<script>
+var widgetId1;
+var widgetId2;
+
+var onloadCallback = function() {
+    
+    widgetId1 = grecaptcha.render('captcha-signin', {
+        'sitekey' : '6LfCKUQsAAAAAELVBQAi8wgyLzXTo4Z3JKVA3VRU',
+        'theme' : 'light'
+    });
+
+    
+    widgetId2 = grecaptcha.render('captcha-signup', {
+        'sitekey' : '6LfCKUQsAAAAAELVBQAi8wgyLzXTo4Z3JKVA3VRU',
+        'theme' : 'light'
+    });
+};
+
+const roles = document.querySelectorAll('.role');
+const tabSignin = document.getElementById('tab-signin');
+const tabSignup = document.getElementById('tab-signup');
+const signInForm = document.getElementById('signInForm');
+const signUpForm = document.getElementById('signUpForm');
+
+
+tabSignin.addEventListener('click', () => {
+    tabSignin.classList.add('active');
+    tabSignup.classList.remove('active');
+    signInForm.style.display = 'block';
+    signUpForm.style.display = 'none';
+});
+
+tabSignup.addEventListener('click', () => {
+    tabSignup.classList.add('active');
+    tabSignin.classList.remove('active');
+    signUpForm.style.display = 'block';
+    signInForm.style.display = 'none';
+});
+roles.forEach(role => {
+    role.addEventListener('click', () => {
+        roles.forEach(r => r.classList.remove('active'));
+        role.classList.add('active');
+        
+        const roleName = role.querySelector('h4').innerText;
+
+        document.querySelectorAll('.login-staff, .signup-staff').forEach(el => el.style.display = 'none');
+
+    
+        if (roleName === 'Citizen') {
+            document.getElementById('login-citizen').style.display = 'flex';
+            document.getElementById('signup-citizen').style.display = 'flex';
+        } else if (roleName === 'Lawyer') {
+            document.getElementById('login-lawyer').style.display = 'flex';
+            document.getElementById('signup-lawyer').style.display = 'flex';
+        } else if (roleName === 'Judge') {
+            document.getElementById('login-judge').style.display = 'flex';
+            document.getElementById('signup-judge').style.display = 'flex';
+        } else if (roleName === 'Court Clerk') {
+            document.getElementById('login-clerk').style.display = 'flex';
+            document.getElementById('signup-clerk').style.display = 'flex';
+        }
+
+        
+        updateRequiredFields(roleName);
+    });
+});
+
+function updateRequiredFields(activeRole) {
+
+    document.querySelectorAll('.login-staff input, .signup-staff input').forEach(input => {
+        input.required = false;
+    });
+
+    const activeSections = document.querySelectorAll(`[id*="${activeRole.toLowerCase()}"] input`);
+    activeSections.forEach(input => {
+        input.required = true;
+    });
+}
+
+document.getElementById('signInForm').addEventListener('submit', function(e) {
+    if (grecaptcha.getResponse(widgetId1) === "") {
+        e.preventDefault();
+        alert("Please confirm you are not a robot for Sign In");
+    }
+});
+
+document.getElementById('signUpForm').addEventListener('submit', function(e) {
+    if (grecaptcha.getResponse(widgetId2) === "") {
+        e.preventDefault();
+        alert("Please confirm you are not a robot for Sign Up");
+    }
+});
+</script>
+    
+</body>
+</html>
