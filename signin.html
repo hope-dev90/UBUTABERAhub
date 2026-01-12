@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBUTABERAhub</title>
+  <link rel="stylesheet" href="signin.css">
+</head>
+<body>
+<section class="spage">
+
+  <!-- LEFT / INFO SECTION -->
+  <section class="first">
+    <h1>⚖ UBUTABERAhub</h1>
+    <h2>Access Justice from Anywhere</h2>
+    <p>Connect with Rwanda's legal system securely. File cases, find, and track proceedings—all in one platform.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Users</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Cases</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Lawyers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT / FORM SECTION -->
+  <section class="second">
+    <div class="container">
+      <a class="back" href="index.html">← Back to Home</a>
+
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to access your dashboard</p>
+
+      <!-- ROLES -->
+      <h3>Select Your Role</h3>
+      <div class="roles">
+        <div class="role active">
+          <div class="icon blue">👤</div>
+          <h4>Citizen</h4>
+          <p>Access legal services and track your cases</p>
+        </div>
+        <div class="role">
+          <div class="icon green">💼</div>
+          <h4>Lawyer</h4>
+          <p>Manage clients and case documents</p>
+        </div>
+        <div class="role">
+          <div class="icon yellow">⚖</div>
+          <h4>Judge</h4>
+          <p>Review cases and issue rulings</p>
+        </div>
+        <div class="role">
+          <div class="icon blue">📄</div>
+          <h4>Court Clerk</h4>
+          <p>Process filings and manage records</p>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" id="tab-signin">Sign In</button>
+        <button class="tab" id="tab-signup">Sign Up</button>
+      </div>
+
+      <!-- SIGN IN FORM -->
+      <form id="signInForm">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required />
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required />
+
+        <!-- Citizen login -->
+        <div id="login-citizen" class="login-staff">
+          <label>National ID Number</label>
+          <input type="text" name="nid_login" placeholder="1 19XX 8 XXXX..." />
+        </div>
+
+        <!-- Lawyer login -->
+        <div id="login-lawyer" class="login-staff" style="display:none;">
+          <label>Bar ID / License Number</label>
+          <input type="text" name="bar_login" placeholder="RBA/2026/XXXX" />
+        </div>
+
+        <!-- Judge login -->
+        <div id="login-judge" class="login-staff" style="display:none;">
+          <label>Judicial Commission ID</label>
+          <input type="text" name="judge_login" placeholder="JUD-RW-550" />
+        </div>
+
+        <!-- Clerk login -->
+        <div id="login-clerk" class="login-staff" style="display:none;">
+          <label>Court Staff ID Number</label>
+          <input type="text" name="clerk_login" placeholder="CLK-RW-112" />
+        </div>
+
+        <button type="submit" class="main-btn">Sign In</button>
+      </form>
+
+      <!-- SIGN UP FORM -->
+      <form id="signUpForm" style="display:none;">
+        <div class="form-grid">
+          <div class="field-group">
+            <label>Full Name</label>
+            <input type="text" name="fullName" id="su-name" placeholder="John Doe" required />
+          </div>
+          <div class="field-group">
+            <label>Email Address</label>
+            <input type="email" id="su-email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field-group">
+            <label>Profile Photo</label>
+            <input type="file" id="su-photo" accept="image/*">
+            <div class="photo-preview-wrapper">
+              <img id="su-photo-preview" src="" alt="Profile preview" style="width:80px;height:80px;border-radius:50%;object-fit:cover;display:none;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Citizen Sign Up -->
+        <div id="signup-citizen" class="signup-staff">
+          <label>National ID (NID)</label>
+          <input type="text" name="nid" placeholder="1 19XX 8 XXXX..." required />
+          <label>Phone Number (MTN/Airtel)</label>
+          <input type="tel" name="phone" placeholder="078XXXXXXX" required />
+        </div>
+
+        <!-- Lawyer Sign Up -->
+        <div id="signup-lawyer" class="signup-staff" style="display:none;">
+          <label>Bar Association ID</label>
+          <input type="text" name="barId" placeholder="RBA/2026/XXXX" />
+          <label>Law Firm Name</label>
+          <input type="text" name="lawFirm" placeholder="Kigali Law Chambers" />
+        </div>
+
+        <!-- Judge Sign Up -->
+        <div id="signup-judge" class="signup-staff" style="display:none;">
+          <label>Judicial Commission Number</label>
+          <input type="text" name="judId" placeholder="JUD-XXXX" />
+        </div>
+
+        <!-- Court Clerk Sign Up -->
+        <div id="signup-clerk" class="signup-staff" style="display:none;">
+          <label>Court Staff ID</label>
+          <input type="text" name="clerkId" placeholder="CLK-XXXX" />
+        </div>
+
+        <div class="pass">
+          <label>Create Password</label>
+          <input type="password" name="password" id="su-password" placeholder="Min. 8 characters" required />
+        </div>
+
+        <button type="submit" class="main-btn">Sign Up</button>
+      </form>
+    </div>
+  </section>
+</section>
+
+<script>
+const photoInput = document.getElementById("su-photo");
+const photoPreview = document.getElementById("su-photo-preview");
+let photoDataUrl = null;
+
+const tabSignin = document.getElementById("tab-signin");
+const tabSignup = document.getElementById("tab-signup");
+const signInForm = document.getElementById("signInForm");
+const signUpForm = document.getElementById("signUpForm");
+const roles = document.querySelectorAll(".role");
+
+let activeTab = "signin";
+
+tabSignin.addEventListener("click", () => {
+  activeTab = "signin";
+  tabSignin.classList.add("active");
+  tabSignup.classList.remove("active");
+  signInForm.style.display = "block";
+  signUpForm.style.display = "none";
+  updateRoleSections();
+});
+
+tabSignup.addEventListener("click", () => {
+  activeTab = "signup";
+  tabSignup.classList.add("active");
+  tabSignin.classList.remove("active");
+  signUpForm.style.display = "block";
+  signInForm.style.display = "none";
+  updateRoleSections();
+});
+
+// ROLE CLICK HANDLING
+roles.forEach(role => {
+  role.addEventListener("click", () => {
+    roles.forEach(r => r.classList.remove("active"));
+    role.classList.add("active");
+    updateRoleSections();
+  });
+});
+
+function updateRoleSections() {
+  const activeRole = document.querySelector(".role.active h4").innerText;
+
+  document.querySelectorAll(".login-staff, .signup-staff").forEach(el => {
+    el.style.display = "none";
+    el.querySelectorAll("input").forEach(input => {
+      input.disabled = true;
+      input.required = false;
+    });
+  });
+
+  let section = null;
+  if (activeTab === "signin") {
+    if (activeRole === "Citizen") section = document.getElementById("login-citizen");
+    else if (activeRole === "Lawyer") section = document.getElementById("login-lawyer");
+    else if (activeRole === "Judge") section = document.getElementById("login-judge");
+    else if (activeRole === "Court Clerk") section = document.getElementById("login-clerk");
+  } else {
+    if (activeRole === "Citizen") section = document.getElementById("signup-citizen");
+    else if (activeRole === "Lawyer") section = document.getElementById("signup-lawyer");
+    else if (activeRole === "Judge") section = document.getElementById("signup-judge");
+    else if (activeRole === "Court Clerk") section = document.getElementById("signup-clerk");
+  }
+
+  if (section) {
+    section.style.display = activeTab === "signup" ? "flex" : "block";
+    section.querySelectorAll("input").forEach(input => input.disabled = false);
+  }
+}
+
+updateRoleSections();
+
+
+photoInput.addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    photoDataUrl = event.target.result;
+    photoPreview.src = photoDataUrl;
+    photoPreview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+});
+
+// SIGN UP
+signUpForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const selectedRole = document.querySelector(".role.active h4").innerText.trim();
+  const user = {
+    name: signUpForm.querySelector('input[name="fullName"]').value,
+    email: signUpForm.querySelector('input[name="email"]').value,
+    password: signUpForm.querySelector('input[name="password"]').value,
+    role: selectedRole,
+    photo: photoDataUrl || null
+  };
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  if (users.find(u => u.email === user.email)) {
+    alert("Email already registered. Please Sign In.");
+    return;
+  }
+
+  users.push(user);
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Account created! You can now sign in.");
+  tabSignin.click();
+});// SIGN IN FORM
+signInForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const email = signInForm.querySelector('input[name="email"]').value;
+  const password = signInForm.querySelector('input[name="password"]').value;
+
+  const user = users.find(
+    u => u.email === email && u.password === password
+  );
+
+  if (!user) {
+    alert("Invalid credentials or account not found.");
+    return;
+  }
+
+  // ✅ STORE FULL USER
+  localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+  // Redirect by role
+  const role = user.role.trim().toLowerCase(); // Trim and lowercase to prevent mismatches
+  switch (role) {
+    case "citizen":
+      window.location.href = "citizen.html";
+      break;
+    case "lawyer":
+      window.location.href = "lawyer.html";
+      break;
+    case "judge":
+      window.location.href = "judge.html";
+      break;
+    case "court clerk":
+      window.location.href = "clerk.html";
+      break;
+    default:
+      window.location.href = "index.html";
+  }
+});
+
+
+
+</script>
+
+</body>
+</html>

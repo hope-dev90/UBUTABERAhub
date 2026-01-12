@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - UBUTABERAhub</title>
+  <link rel="stylesheet" href="citizen.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <div class="logo">⚖ UBUTABERAhub</div>
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">My Cases</a>
+      <a href="#">Find Lawyer</a>
+      <a href="#" onclick="openMessageModal()">Messages</a>
+      <a href="#">AI Assistant</a>
+      <a href="#">Documents</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#">Settings</a>
+      <a href="#">Help Center</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <input type="text" placeholder="🔍 cases, documents..." class="search-input">
+
+      <div class="user-avatar">
+        <img id="profile-avatar" src="default-avatar.png"
+             class="avatar"
+             style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <h1>Welcome back, <span id="welcome-name">User</span>!</h1>
+      <p>Here's an overview of your legal matters</p>
+    </section>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="card-head">
+          <span class="icon blue">📄</span>
+          <h2 id="active-cases">0</h2>
+        </div>
+        <p>Active Cases</p>
+      </div>
+
+      <div class="stat-card">
+        <div class="card-head">
+          <span class="icon green">✉</span>
+          <h2 id="messages">0</h2>
+        </div>
+        <p>Messages</p>
+      </div>
+
+      <div class="stat-card">
+        <div class="card-head">
+          <span class="icon yellow">📂</span>
+          <h2 id="docs">0</h2>
+        </div>
+        <p>Documents</p>
+      </div>
+
+      <div class="stat-card">
+        <div class="card-head">
+          <span class="icon blue">🕒</span>
+          <h2 id="appts">0</h2>
+        </div>
+        <p>Appointments</p>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <div class="case-list">
+        <h3>Your Cases</h3>
+
+        <div class="empty-state" id="empty-cases">
+          <p>No active cases found.</p>
+          <button class="new-case-btn" onclick="openCaseModal()">+ New Case</button>
+        </div>
+
+        <div id="cases-container"></div>
+      </div>
+
+      <aside class="quick-actions">
+        <h3>Quick Actions</h3>
+        <a href="#" class="lawf">🔍 Find a Lawyer</a>
+        <button class="action-btn" onclick="openDocumentModal()">📄 Submit Document</button>
+        <button class="action-btn" onclick="openMessageModal()">💬 Message Lawyer</button>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<!-- MESSAGE MODAL -->
+<div id="message-modal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Message a Lawyer</h3>
+
+    <label for="lawyer-select">Select Lawyer</label>
+    <!-- ADDED IDs -->
+    <select id="lawyer-select"></select>
+
+    <label for="message-text">Your Message</label>
+    <textarea id="message-text" rows="4"></textarea>
+
+    <!-- hidden email field (used in JS) -->
+    <input type="hidden" id="lawyer-email">
+
+    <div class="modal-actions">
+      <!-- ADDED IDs & CLOSE HANDLER -->
+      <button id="send-message-btn">Send</button>
+      <button type="button" id="close-message-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENT MODAL -->
+<div id="doc-modal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Submit Document</h3>
+
+    <!-- ADDED IDs -->
+    <input type="file" id="doc-file">
+    <textarea id="doc-note" rows="3" placeholder="Note (optional)"></textarea>
+
+    <div class="modal-actions">
+      <button id="doc-submit-btn">Upload</button>
+      <button type="button" id="doc-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- CASE MODAL -->
+<div id="case-modal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>New Case</h3>
+
+    <!-- ADDED IDs -->
+    <input type="text" id="case-title" placeholder="Case Title">
+    <select id="case-type">
+      <option value="">Select type</option>
+      <option value="Civil">Civil</option>
+      <option value="Criminal">Criminal</option>
+      <option value="Family">Family</option>
+      <option value="Commercial">Commercial</option>
+    </select>
+    <textarea id="case-desc" rows="3" placeholder="Description"></textarea>
+
+    <div class="modal-actions">
+      <button id="case-save-btn">Save Case</button>
+      <button type="button" id="case-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== SIMPLE CLOSE MODAL FUNCTION (you were calling closeModal but never defined it) ===== */
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.remove("active");
+}
+
+/* ===== LOAD LOGGED-IN USER ===== */
+const users = JSON.parse(localStorage.getItem("users")) || [];
+const username = localStorage.getItem("username");
+
+if (!username) {
+  window.location.href = "signin.html";
+}
+
+const currentUser = users.find(u => u.name === username);
+
+if (currentUser) {
+  document.getElementById("welcome-name").textContent = currentUser.name;
+  if (currentUser.photo) {
+    document.getElementById("profile-avatar").src = currentUser.photo;
+  }
+}
+
+/* ===== GET MODAL ELEMENTS (they now exist with IDs) ===== */
+const messageModal = document.getElementById("message-modal");
+const docModal = document.getElementById("doc-modal");
+const caseModal = document.getElementById("case-modal");
+
+/* ===== OPEN MODAL FUNCTIONS ===== */
+function openMessageModal() {
+  populateLawyerSelect();
+  messageModal.classList.add("active");
+}
+
+function openDocumentModal() {
+  docModal.classList.add("active");
+}
+
+function openCaseModal() {
+  caseModal.classList.add("active");
+}
+
+/* ===== CLOSE BUTTONS ===== */
+document.getElementById("close-message-btn").onclick = () => messageModal.classList.remove("active");
+document.getElementById("doc-cancel-btn").onclick = () => docModal.classList.remove("active");
+document.getElementById("case-cancel-btn").onclick = () => caseModal.classList.remove("active");
+
+/* ===== CLOSE MODAL ON BACKGROUND CLICK ===== */
+[messageModal, docModal, caseModal].forEach(modal => {
+  modal.addEventListener("click", e => {
+    if (e.target === modal) modal.classList.remove("active");
+  });
+});
+
+/* ===== POPULATE LAWYER SELECT ===== */
+function populateLawyerSelect() {
+  const select = document.getElementById("lawyer-select");
+  select.innerHTML = "";
+  const lawyers = users.filter(u => u.role === "Lawyer");
+
+  const sendBtn = document.getElementById("send-message-btn");
+
+  if (lawyers.length === 0) {
+    const option = document.createElement("option");
+    option.text = "No lawyers available";
+    option.disabled = true;
+    select.add(option);
+    sendBtn.disabled = true;
+  } else {
+    sendBtn.disabled = false;
+    lawyers.forEach(lawyer => {
+      const option = document.createElement("option");
+      option.value = lawyer.email;
+      option.text = lawyer.name;
+      select.add(option);
+    });
+  }
+
+  select.onchange = function() {
+    document.getElementById("lawyer-email").value = this.value;
+  };
+
+  // set default if there is at least one lawyer
+  if (lawyers.length > 0) {
+    document.getElementById("lawyer-email").value = lawyers[0].email;
+  }
+}
+
+/* ===== SEND MESSAGE ===== */
+document.getElementById("send-message-btn").onclick = () => {
+  const lawyerEmail = document.getElementById("lawyer-email").value;
+  const messageText = document.getElementById("message-text").value.trim();
+
+  if (!lawyerEmail || !messageText) {
+    alert("Select a lawyer and write a message.");
+    return;
+  }
+
+  let messages = JSON.parse(localStorage.getItem("messages")) || [];
+  messages.push({
+    from: currentUser.name,
+    to: lawyerEmail,
+    text: messageText,
+    date: new Date().toISOString()
+  });
+  localStorage.setItem("messages", JSON.stringify(messages));
+
+  alert("Message sent!");
+  document.getElementById("message-text").value = "";
+  messageModal.classList.remove("active");
+  updateStats();
+};
+
+/* ===== SAVE NEW CASE ===== */
+const caseSaveBtn = document.getElementById("case-save-btn");
+caseSaveBtn.onclick = () => {
+  const title = document.getElementById("case-title").value.trim();
+  const type = document.getElementById("case-type").value;
+  const desc = document.getElementById("case-desc").value.trim();
+
+  if (!title || !type || !desc) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  let cases = JSON.parse(localStorage.getItem("cases")) || [];
+  cases.push({ title, type, desc, user: currentUser.name, date: new Date().toISOString() });
+  localStorage.setItem("cases", JSON.stringify(cases));
+
+  alert("New case created!");
+  caseModal.classList.remove("active");
+  document.getElementById("case-title").value = "";
+  document.getElementById("case-type").value = "";
+  document.getElementById("case-desc").value = "";
+  loadCases();
+  updateStats();
+};
+
+/* ===== UPLOAD DOCUMENT ===== */
+document.getElementById("doc-submit-btn").onclick = () => {
+  const fileInput = document.getElementById("doc-file");
+  const note = document.getElementById("doc-note").value.trim();
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Select a file to upload.");
+    return;
+  }
+
+  let docs = JSON.parse(localStorage.getItem("documents")) || [];
+  docs.push({
+    user: currentUser.name,
+    fileName: file.name,
+    note,
+    date: new Date().toISOString()
+  });
+  localStorage.setItem("documents", JSON.stringify(docs));
+
+  alert("Document uploaded!");
+  fileInput.value = "";
+  document.getElementById("doc-note").value = "";
+  docModal.classList.remove("active");
+  updateStats();
+};
+
+/* ===== LOAD USER CASES ===== */
+function loadCases() {
+  const container = document.getElementById("cases-container");
+  container.innerHTML = "";
+  const cases = JSON.parse(localStorage.getItem("cases")) || [];
+  const userCases = cases.filter(c => c.user === currentUser.name);
+
+  const emptyDiv = document.getElementById("empty-cases");
+  if (userCases.length === 0) {
+    emptyDiv.style.display = "block";
+  } else {
+    emptyDiv.style.display = "none";
+    userCases.forEach(c => {
+      const div = document.createElement("div");
+      div.classList.add("case");
+      div.innerHTML = `
+        <h3>${c.title}</h3>
+        <p>Type: ${c.type}</p>
+        <small>${c.desc}</small>
+      `;
+      container.appendChild(div);
+    });
+  }
+}
+
+/* ===== UPDATE STATS ===== */
+function updateStats() {
+  const cases = JSON.parse(localStorage.getItem("cases")) || [];
+  const userCases = cases.filter(c => c.user === currentUser.name);
+
+  const messages = JSON.parse(localStorage.getItem("messages")) || [];
+  const userMessages = messages.filter(m => m.from === currentUser.name);
+
+  const docs = JSON.parse(localStorage.getItem("documents")) || [];
+  const userDocs = docs.filter(d => d.user === currentUser.name);
+
+  document.getElementById("active-cases").textContent = userCases.length;
+  document.getElementById("messages").textContent = userMessages.length;
+  document.getElementById("docs").textContent = userDocs.length;
+
+  // appointments still 0 for now
+  document.getElementById("appts").textContent = 0;
+}
+
+// Initialize on page load
+loadCases();
+updateStats();
+</script>
+
+</body>
+</html>

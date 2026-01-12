@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwanda Voices | Traditional Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="sidebar" id="sidebar">
+    <div class="close-btn" onclick="toggleMenu()">&times;</div>
+    <ul class="sidebar-links">
+        <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+        <li><a href="#about" onclick="toggleMenu()">About</a></li>
+        <li><a href="#singers" onclick="toggleMenu()">Singers</a></li>
+        <li><a href="#auth" onclick="toggleMenu()">Join Us</a></li>
+    </ul>
+</nav>
+
+<header class="navbar">
+    <div class="logo">Rwanda Voices 🎶</div>
+    <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul class="desktop-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#singers">Singers</a></li>
+        <li><a href="#auth" class="btn-nav">Join</a></li>
+    </ul>
+</header>
+
+<main>
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Celebrate Our <span class="highlight">Heritage</span></h1>
+                <p>Connecting Rwanda's finest traditional voices with the world. Experience the rhythm of our ancestors.</p>
+                <div class="hero-btns">
+                    <a href="#singers" class="btn btn-primary">Explore Singers</a>
+                    <a href="#auth" class="btn btn-secondary">Join Platform</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="img-frame">
+                    <img src="girl.png" alt="Singer" onerror="this.src='https://via.placeholder.com/300x300?text=Voice+Artist'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Rwanda Voices</h2>
+            <div class="about-grid">
+                <img src="masa.png" alt="Traditional Music" class="about-img" onerror="this.src='https://via.placeholder.com/400x250?text=Culture'">
+                <div class="about-text">
+                    <p>We are a dedicated digital home for the preservation of Rwandan folk music. Our platform empowers local artists to find a global audience while keeping our culture alive for the next generation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="singers" class="singers">
+        <div class="container">
+            <h2>Featured Artists</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <img src="c.png" alt="Ingabire">
+                    <h3>Ingabire</h3>
+                    <p>Traditional Melodies Specialist</p>
+                </div>
+                <div class="card">
+                    <img src="c.png" alt="Ingabire">
+                    <h3>Kamana</h3>
+                    <p>Master of the Ingoma (Drums)</p>
+                </div>
+                <div class="card">
+                    <img src="c.png" alt="Ingabire">
+                    <p>Folk Harmony Expert</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="auth" class="auth">
+    <div class="auth-card">
+        
+        <div id="login-view">
+            <h3>Login</h3>
+            <form class="simple-form">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn-submit">Login</button>
+            </form>
+            <p class="toggle-text">Don't have an account? 
+                <a href="javascript:void(0)" onclick="showSignup()">Sign up</a>
+            </p>
+        </div>
+
+        <div id="signup-view" class="hidden">
+            <h3>Create Account</h3>
+            <form class="simple-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn-submit">Sign Up</button>
+            </form>
+            <p class="toggle-text">Already have an account? 
+                <a href="javascript:void(0)" onclick="showLogin()">Login</a>
+            </p>
+        </div>
+
+    </div>
+</section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Rwanda Voices | Cultivating Talent, Preserving Tradition.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

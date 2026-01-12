@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Judge Dashboard - UBUTABERAhub</title>
+  <link rel="stylesheet" href="judge.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="brand">⚖ Justice Connect</h2>
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Cases</a>
+      <a href="#">Hearings</a>
+      <a href="#">Rulings</a>
+      <a href="#">Messages</a>
+      <a href="#">Documents</a>
+      <a href="#">Schedule</a>
+      <a href="#">AI Assistant</a>
+      <a href="#">Settings</a>
+      <a href="#">Help Center</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="welcome"></h1>
+        <p>Justice Dashboard • UBUTABERAhub</p>
+      </div>
+
+      <div class="profile">
+        <img id="profilePhoto" alt="Profile">
+        <div>
+          <strong id="profileName"></strong><br>
+          <small id="profileRole"></small>
+        </div>
+      </div>
+    </header>
+
+    <!-- Summary cards (numbers) -->
+    <section class="summary">
+      <div class="card">
+        <h3 id="casesAssigned">12</h3>
+        <p>Cases Assigned</p>
+        <span id="casesTrend">+2 this week</span>
+      </div>
+      <div class="card">
+        <h3 id="hearingsToday">8</h3>
+        <p>Hearings Today</p>
+        <span id="hearingsCompleted">3 completed</span>
+      </div>
+      <div class="card">
+        <h3 id="pendingRulings">5</h3>
+        <p>Pending Rulings</p>
+        <span>Due soon</span>
+      </div>
+      <div class="card">
+        <h3 id="timelinessRate">92%</h3>
+        <p>Timeliness Rate</p>
+        <span>+4% this year</span>
+      </div>
+    </section>
+
+    <!-- Active Cases -->
+    <section class="cases">
+      <h2>Cases in Progress</h2>
+      <div class="case">
+        <h3>CASE-2026-011 (In Progress)</h3>
+        <p>Criminal Trial - State vs Niyonsenga</p>
+        <small>High Court, Kigali | Next Hearing: Jan 15, 2026 | Filed: Jan 5, 2026</small>
+      </div>
+      <div class="case">
+        <h3>CASE-2026-007 (Pending Ruling)</h3>
+        <p>Civil Appeal - Uwimana vs Gasabo District</p>
+        <small>Appeals Court | Hearing Completed Jan 8, 2026</small>
+      </div>
+      <div class="case">
+        <h3>CASE-2026-003 (In Progress)</h3>
+        <p>Property Dispute - Karekezi Estate</p>
+        <small>Primary Court, Musanze | Next Hearing: Jan 20, 2026</small>
+      </div>
+    </section>
+
+    <!-- Today’s Hearings -->
+    <section class="hearings">
+      <h2>Today’s Hearings</h2>
+      <ul>
+        <li>09:00 AM: State vs Niyonsenga (High Court, Room 2)</li>
+        <li>11:00 AM: Uwimana vs Gasabo District (Appeals Court)</li>
+        <li>02:00 PM: Karekezi Estate (Primary Court, Musanze)</li>
+      </ul>
+    </section>
+
+    <!-- Pending Rulings -->
+    <section class="rulings">
+      <h2>Pending Rulings</h2>
+      <div class="ruling">
+        <strong>CASE-2026-007</strong>
+        <p>Civil Appeal - Uwimana vs Gasabo District <span>Due: Jan 18, 2026</span></p>
+      </div>
+      <div class="ruling">
+        <strong>CASE-2026-004</strong>
+        <p>Commercial Dispute - ABC Ltd vs XYZ Ltd <span>Due: Jan 22, 2026</span></p>
+      </div>
+    </section>
+
+    <!-- Recent Messages -->
+    <section class="messages">
+      <h2>Recent Messages</h2>
+      <div class="message">
+        <strong>Registrar</strong>
+        <p>"Reminder: ruling submission deadline approaching..." <span>1h ago</span></p>
+      </div>
+      <div class="message">
+        <strong>Clerk</strong>
+        <p>"Updated hearing schedule uploaded." <span>Yesterday</span></p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Get logged-in user
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+// Security: only judges can access
+if (!user || user.role !== "Judge") {
+  window.location.href = "signin.html";
+}
+
+// Topbar
+document.getElementById("welcome").textContent = "Welcome, Honorable " + user.name;
+document.getElementById("profileName").textContent = user.name;
+document.getElementById("profileRole").textContent = user.role;
+const img = document.getElementById("profilePhoto");
+img.src = user.photo || "default-avatar.png";
+img.alt = user.name + " profile photo";
+
+// Fetch all cases from localStorage
+const allCases = JSON.parse(localStorage.getItem("cases")) || [];
+
+// Filter cases assigned to this judge
+const assignedCases = allCases.filter(c => c.judge === user.name);
+
+// Cases assigned
+document.getElementById("casesAssigned").textContent = assignedCases.length;
+
+// Today’s hearings
+const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+const hearingsToday = assignedCases.filter(c => c.nextHearing === today);
+document.getElementById("hearingsToday").textContent = hearingsToday.length;
+document.getElementById("hearingsCompleted").textContent = 
+    assignedCases.filter(c => c.status === "Completed" && c.nextHearing === today).length + " completed";
+
+// Pending rulings
+const pendingRulings = assignedCases.filter(c => c.status === "Pending Ruling");
+document.getElementById("pendingRulings").textContent = pendingRulings.length;
+
+// Timeliness rate (example: rulings delivered on time / total rulings)
+const delivered = assignedCases.filter(c => c.status === "Ruling Delivered");
+const onTime = delivered.filter(c => new Date(c.rulingDate) <= new Date(c.dueDate));
+const timelinessRate = delivered.length === 0 ? 0 : Math.round((onTime.length / delivered.length) * 100);
+document.getElementById("timelinessRate").textContent = timelinessRate + "%";
+
+// Populate "Cases in Progress" dynamically
+const casesSection = document.querySelector(".cases");
+casesSection.innerHTML = "<h2>Cases in Progress</h2>";
+assignedCases.forEach(c => {
+    const div = document.createElement("div");
+    div.classList.add("case");
+    div.innerHTML = `
+      <h3>${c.caseNumber} (${c.status})</h3>
+      <p>${c.type} - ${c.title}</p>
+      <small>${c.court} | Next Hearing: ${c.nextHearing || "TBD"} | Filed: ${c.filedDate}</small>
+    `;
+    casesSection.appendChild(div);
+});
+
+// Populate "Pending Rulings" dynamically
+const rulingsSection = document.querySelector(".rulings");
+rulingsSection.innerHTML = "<h2>Pending Rulings</h2>";
+pendingRulings.forEach(c => {
+    const div = document.createElement("div");
+    div.classList.add("ruling");
+    div.innerHTML = `
+      <strong>${c.caseNumber}</strong>
+      <p>${c.type} - ${c.title} <span>Due: ${c.dueDate}</span></p>
+    `;
+    rulingsSection.appendChild(div);
+});
+
+// Populate "Today’s Hearings" dynamically
+const hearingsSection = document.querySelector(".hearings ul");
+hearingsSection.innerHTML = "";
+hearingsToday.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = `${c.hearingTime}: ${c.title} (${c.court}, Room ${c.room || "-"})`;
+    hearingsSection.appendChild(li);
+});
+</script>
+
+</body>
+</html>
